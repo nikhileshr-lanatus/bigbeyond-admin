@@ -168,145 +168,160 @@ const ApproveArtists = () => {
         <DialogContent>
           <hr />
           <Box
-            className="username"
-            sx={{
-              display: "grid",
-              gridTemplateColumns: "1fr 2fr",
-              gap: "1rem",
-              "& a": {
-                color: "black",
-                textDecoration: "none",
-                cursor: "pointer",
-              },
-            }}
-          >
-            <p>Username:</p>
-            <p>
-              <b>{selectedArtist?.userName}</b>
-            </p>
-            <p>Email</p>
-            <p>
-              <b style={{ cursor: "pointer" }}>
-                <a href={`mailto:${selectedArtist?.email}`} rel="noreferrer">
-                  {" "}
-                  {selectedArtist?.email}
-                </a>
-              </b>
-            </p>
-            <p>Commissoin % </p>
-
-            <p>
-              <form ref={commission}>
-                <TextField
-                  name="commissionInput"
-                  sx={{ width: "100%" }}
-                  defaultValue={selectedArtist?.commissionPercent}
-                  variant="standard"
-                  type="number"
-                  inputProps={{
-                    min: 1,
-                    max: 100,
-                    maxLength: 2,
-                  }}
-                  disabled={selectedArtist?.isApprovedArtist}
-                  onInput={(e) => {
-                    e.target.value = Math.max(0, parseInt(e.target.value))
-                      .toString()
-                      .slice(0, 2);
-                  }}
-                />
-              </form>
-            </p>
-            <p>Description</p>
-            <p>
-              <b>{selectedArtist?.bioData}</b>
-            </p>
-            <p>Name</p>
-            <p>
-              <b>{selectedArtist?.name}</b>
-            </p>
-            <p>Total Followers</p>
-            <p>
-              <b>{selectedArtist?.totalFollowers}</b>
-            </p>
-            <p>Instagram</p>
-            <p>
-              <a
-                href={selectedArtist?.instagramUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <b>{selectedArtist?.instagramUrl}</b>
-              </a>
-            </p>
-            <p>Twitter</p>
-            <p>
-              <a
-                href={selectedArtist?.twitterUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <b>{selectedArtist?.twitterUrl}</b>
-              </a>
-            </p>
-            <p>Website</p>
-            <p>
-              <a
-                href={selectedArtist?.websiteUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <b>{selectedArtist?.websiteUrl}</b>
-              </a>
-            </p>
-          </Box>
-          <Typography
-            sx={{
-              marginBottom: "1rem",
-              paddingY: "1rem",
-              borderTop: "1px solid gray",
-              fontWeight: "bold",
-            }}
-          >
-            Work Uploaded By Artist:
-          </Typography>
-          <Box
             sx={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
               gap: "1rem",
             }}
           >
-            {console.log({ selectedArtist })}
-            {selectedArtist?.imageData?.map((image) => {
-              return (
-                <Box sx={{ position: "relative" }}>
-                  <Box
-                    sx={{
-                      width: "100%",
-                      // height: "5rem",
-                      aspectRatio: "1/1",
-                      backgroundImage: `url(${image})`,
-                      backgroundPosition: "center",
-                      backgroundSize: "cover",
-                    }}
-                  ></Box>
+            <Box>
+              <Box
+                className="username"
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 2fr",
+                  gap: "1rem",
+                  "& a": {
+                    color: "black",
+                    textDecoration: "none",
+                    cursor: "pointer",
+                  },
+                }}
+              >
+                <p>Username:</p>
+                <p>
+                  <b>{selectedArtist?.userName}</b>
+                </p>
+                <p>Email</p>
+                <p>
+                  <b style={{ cursor: "pointer" }}>
+                    <a
+                      href={`mailto:${selectedArtist?.email}`}
+                      rel="noreferrer"
+                    >
+                      {" "}
+                      {selectedArtist?.email}
+                    </a>
+                  </b>
+                </p>
+                <p>Commissoin % </p>
+
+                <p>
+                  <form ref={commission}>
+                    <TextField
+                      name="commissionInput"
+                      sx={{ width: "100%" }}
+                      defaultValue={selectedArtist?.commissionPercent}
+                      variant="standard"
+                      type="number"
+                      inputProps={{
+                        min: 1,
+                        max: 100,
+                        maxLength: 2,
+                      }}
+                      disabled={selectedArtist?.isApprovedArtist}
+                      onInput={(e) => {
+                        e.target.value = Math.max(0, parseInt(e.target.value))
+                          .toString()
+                          .slice(0, 2);
+                      }}
+                    />
+                  </form>
+                </p>
+                <p>Description</p>
+                <p>
+                  <b>{selectedArtist?.bioData}</b>
+                </p>
+                <p>Name</p>
+                <p>
+                  <b>{selectedArtist?.name}</b>
+                </p>
+                <p>Total Followers</p>
+                <p>
+                  <b>{selectedArtist?.totalFollowers}</b>
+                </p>
+                <p>Instagram</p>
+                <p>
                   <a
-                    href={image}
-                    download
-                    style={{
-                      color: "#131313",
-                      position: "absolute",
-                      right: "0rem",
-                      top: "0rem",
-                      padding: ".5rem",
-                    }}
+                    href={selectedArtist?.instagramUrl}
+                    target="_blank"
+                    rel="noreferrer"
                   >
-                    <DownloadIcon width="1.3rem" />
+                    <b>{selectedArtist?.instagramUrl}</b>
                   </a>
-                </Box>
-              );
-            })}
+                </p>
+                <p>Twitter</p>
+                <p>
+                  <a
+                    href={selectedArtist?.twitterUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <b>{selectedArtist?.twitterUrl}</b>
+                  </a>
+                </p>
+                <p>Website</p>
+                <p>
+                  <a
+                    href={selectedArtist?.websiteUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <b>{selectedArtist?.websiteUrl}</b>
+                  </a>
+                </p>
+              </Box>
+            </Box>
+            <Box
+              sx={{ borderLeft: "1px solid lightgray", paddingLeft: "1rem" }}
+            >
+              <Typography
+                sx={{
+                  marginBottom: "1rem",
+                  fontWeight: "bold",
+                }}
+              >
+                Work Uploaded By Artist:
+              </Typography>
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "1rem",
+                }}
+              >
+                {console.log({ selectedArtist })}
+                {selectedArtist?.imageData?.map((image) => {
+                  return (
+                    <Box sx={{ position: "relative" }}>
+                      <Box
+                        sx={{
+                          width: "100%",
+                          // height: "5rem",
+                          aspectRatio: "1/1",
+                          backgroundImage: `url(${image})`,
+                          backgroundPosition: "center",
+                          backgroundSize: "cover",
+                        }}
+                      ></Box>
+                      <a
+                        href={image}
+                        download
+                        style={{
+                          color: "#131313",
+                          position: "absolute",
+                          right: "0rem",
+                          top: "0rem",
+                          padding: ".5rem",
+                        }}
+                      >
+                        <DownloadIcon width="1.3rem" />
+                      </a>
+                    </Box>
+                  );
+                })}
+              </Box>
+            </Box>
           </Box>
         </DialogContent>
         <DialogActions>
