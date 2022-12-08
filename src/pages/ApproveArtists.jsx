@@ -161,12 +161,14 @@ const ApproveArtists = () => {
           setselectedArtist();
           setOpenDialog(false);
         }}
+        maxWidth="lg"
+        fullWidth={true}
       >
         <DialogTitle>
           <b>Artist Details</b>
         </DialogTitle>
         <DialogContent>
-          <hr />
+          <hr style={{ background: "lightgray" }} />
           <Box
             sx={{
               display: "grid",
