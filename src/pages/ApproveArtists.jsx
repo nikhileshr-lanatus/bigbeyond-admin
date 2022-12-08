@@ -17,6 +17,9 @@ import { getAllArtistUsers, approveArtistUser } from "../api/users";
 import { captureError } from "../api/captureError";
 import EditIcon from "../assets/svgs/EditIcon";
 import EyeOpen from "../assets/svgs/EyeOpen";
+import DownloadIcon from "../assets/svgs/DownloadIcon";
+
+import { getArtistWorkData } from "../api/artistWorks";
 
 const ApproveArtists = () => {
   const [artistUserData, setArtistUserData] = useState([]);
@@ -27,15 +30,12 @@ const ApproveArtists = () => {
   const commission = useRef();
 
   const approveArtist = () => {
-    console.log("approve a artist from here");
-    console.log(commission.current.commissionInput.value);
     const artistData = {
       artistId: selectedArtist?.id,
       commissionPercent: commission.current.commissionInput.value,
     };
     approveArtistUser(artistData, authToken)
       .then((approvedArtistRes) => {
-        console.log({ approvedArtistRes });
         if (approvedArtistRes?.status === 200) {
           showSnackBarNotification("success", "Artist is now approved", 2000);
           getArtistData();
@@ -49,7 +49,6 @@ const ApproveArtists = () => {
         }
       })
       .catch((approvedArtistErr) => {
-        console.log({ approvedArtistErr });
         showSnackBarNotification("info", "Something went wrong", 2000);
       });
   };
@@ -87,10 +86,24 @@ const ApproveArtists = () => {
     authToken && getArtistDataOnFirstLoad();
   }, [authToken, showSnackBarNotification]);
 
+  useEffect(() => {
+    if (selectedArtist) {
+      getArtistWorkData({ artistId: selectedArtist?.id }, authToken).then(
+        (getArtistWorkRes) => {
+          let imageData = [];
+          for (let i = 0; i < getArtistWorkRes?.data?.length; i++) {
+            imageData.push(getArtistWorkRes?.data[i]?.imageUrl);
+          }
+          setselectedArtist({ ...selectedArtist, imageData: imageData });
+          // setArtistUserData({ ...artistUserData, getArtistWorkRes });
+        }
+      );
+    }
+  }, [openDialog]);
+
   const handleViewClick = (row) => (event) => {
     event.stopPropagation();
     setselectedArtist(row);
-    console.log({ row });
     setOpenDialog(true);
   };
 
@@ -142,7 +155,13 @@ const ApproveArtists = () => {
 
   return (
     <>
-      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+      <Dialog
+        open={openDialog}
+        onClose={() => {
+          setselectedArtist();
+          setOpenDialog(false);
+        }}
+      >
         <DialogTitle>
           <b>Artist Details</b>
         </DialogTitle>
@@ -175,7 +194,7 @@ const ApproveArtists = () => {
               </b>
             </p>
             <p>Commissoin % </p>
-            
+
             <p>
               <form ref={commission}>
                 <TextField
@@ -190,9 +209,11 @@ const ApproveArtists = () => {
                     maxLength: 2,
                   }}
                   disabled={selectedArtist?.isApprovedArtist}
-                  onInput = {(e) =>{
-                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,2)
-                }}
+                  onInput={(e) => {
+                    e.target.value = Math.max(0, parseInt(e.target.value))
+                      .toString()
+                      .slice(0, 2);
+                  }}
                 />
               </form>
             </p>
@@ -238,6 +259,54 @@ const ApproveArtists = () => {
                 <b>{selectedArtist?.websiteUrl}</b>
               </a>
             </p>
+          </Box>
+          <Typography
+            sx={{
+              marginBottom: "1rem",
+              paddingY: "1rem",
+              borderTop: "1px solid gray",
+              fontWeight: "bold",
+            }}
+          >
+            Work Uploaded By Artist:
+          </Typography>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "1rem",
+            }}
+          >
+            {console.log({ selectedArtist })}
+            {selectedArtist?.imageData?.map((image) => {
+              return (
+                <Box sx={{ position: "relative" }}>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      // height: "5rem",
+                      aspectRatio: "1/1",
+                      backgroundImage: `url(${image})`,
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                    }}
+                  ></Box>
+                  <a
+                    href={image}
+                    download
+                    style={{
+                      color: "#131313",
+                      position: "absolute",
+                      right: "0rem",
+                      top: "0rem",
+                      padding: ".5rem",
+                    }}
+                  >
+                    <DownloadIcon width="1.3rem" />
+                  </a>
+                </Box>
+              );
+            })}
           </Box>
         </DialogContent>
         <DialogActions>
