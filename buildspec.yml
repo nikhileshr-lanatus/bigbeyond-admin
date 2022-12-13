@@ -1,7 +1,7 @@
 version: 0.2
 
 phases:
-  install: 
+  install:
     commands:
       # install node 16
       - echo install node 16.x ...
@@ -17,16 +17,15 @@ phases:
     commands:
       # install dependencies
       - echo install dependencies...
-      - yarn 
+      - yarn
 
-  build: 
+  build:
     commands:
       # build commands
       - echo running build commands...
       - yarn build
 
 artifacts:
-  files: 
-    "**/*"
+  files:
     discard-path: no
     base-directory: dist
