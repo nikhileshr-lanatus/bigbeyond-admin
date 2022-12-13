@@ -27,13 +27,7 @@ phases:
 
 artifacts:
   files:
-    - public/**/*
-    - src/**/*
-    - package.json
-    - buildspec.yml
-    - scripts/**/*
-    - .env
-
+    - "**/*"
   name: bigbeyondadmin-build-$(date +%Y-%m-%d)
   discard-paths: no
   base-directory: build
