@@ -17,13 +17,13 @@ phases:
     commands:
       # install dependencies
       - echo install dependencies...
-      - sudo yarn install
+      - npm install
 
   build:
     commands:
       # build commands
       - echo running build commands...
-      - yarn build
+      - npm build
 
 artifacts:
   files:
