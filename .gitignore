@@ -114,3 +114,6 @@ build/
 #migration toml file
 *.toml
 migrations/
+
+# env files
+*.env
