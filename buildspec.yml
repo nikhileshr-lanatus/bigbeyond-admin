@@ -23,10 +23,11 @@ phases:
     commands:
       # build commands
       - echo running build commands...
-      - npm build
+      - npm run build
 
 artifacts:
   files:
     - "**/*"
+  name: bigbeyondadmin-build-$(date +%Y-%m-%d)
   discard-paths: no
   base-directory: build
