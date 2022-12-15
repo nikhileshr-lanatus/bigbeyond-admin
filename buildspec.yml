@@ -31,4 +31,5 @@ artifacts:
     - "**/*"
   name: bigbeyondadmin-build-$(date +%Y-%m-%d)
   discard-paths: no
-  base-directory: "/"
+  # base-directory: "/"
+  exclude-paths: "node_modules"
