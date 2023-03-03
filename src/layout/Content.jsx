@@ -13,6 +13,7 @@ import CreateAdmin from "../pages/CreateAdmin";
 import { useAuthContext } from "../context/AuthContextProvider";
 import ApproveArtists from "../pages/ApproveArtists";
 import ViewPayments from "../pages/ViewPayments";
+import ReportedProducts from "../pages/ReportedProducts";
 
 const Content = () => {
   const { currentUser } = useAuthContext();
@@ -39,7 +40,7 @@ const Content = () => {
           <Route path="/admin/see-all-payments" element={<ViewPayments />} />
           <Route path="/admin/check-delivery-status" element={<ComingSoon />} />
           <Route path="/admin/configure-a-collab" element={<ComingSoon />} />
-          <Route path="/admin/reported-products" element={<ComingSoon />} />
+          <Route path="/admin/reported-products" element={<ReportedProducts />} />
           
           <Route path="/sign-in" element={<SignIn />} />
           {/* <Route path="/admin/approve-product-request" element={<ComingSoon />}/> */}

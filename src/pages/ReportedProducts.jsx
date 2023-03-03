@@ -16,7 +16,7 @@ import { getAllArtistUsers } from "../api/users";
 import { captureError } from "../api/captureError";
 import { getAllPaymentData } from "../api/payment";
 
-const ViewPayments = () => {
+const ReportedProducts = () => {
   const [paymentsData, setpaymentsData] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedPayment, setselectedPayment] = useState();
@@ -53,11 +53,6 @@ const ViewPayments = () => {
     authToken && getPaymentData(authToken);
   }, [authToken]);
 
-  // const handleViewClick = (row) => (event) => {
-  //   event.stopPropagation();
-  //   setselectedPayment(row);
-  //   setOpenDialog(true);
-  // };
 
   const columns = [
     {
@@ -104,32 +99,13 @@ const ViewPayments = () => {
       headerClassName: "super-app-theme--header",
       width: 140,
     },
-
-    // {
-    //   field: "view",
-    //   headerName: "Approval",
-    //   headerClassName: "super-app-theme--header",
-    //   width: 100,
-    //   renderCell: ({ row }) => (
-    //     <strong>
-    //       <GridActionsCellItem
-    //         //   icon={<VisibilityIcon />}
-
-    //         icon={row?.isApprovedArtist ? <EyeOpen /> : <EditIcon />}
-    //         label="View"
-    //         onClick={handleViewClick(row)}
-    //         color="inherit"
-    //       />
-    //     </strong>
-    //   ),
-    // },
   ];
 
   return (
     <>
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogTitle>
-          <b>Payment Details</b>
+          <b>Reported Products</b>
         </DialogTitle>
         <DialogContent>
           <hr />
@@ -198,7 +174,7 @@ const ViewPayments = () => {
       </Dialog>
       <>
         <>
-          <h1> Payments</h1>
+          <h1 style={{ marginLeft: '4.5rem'}} > Reported Products </h1>
         </>
         {paymentsData ? (
           <Box display="flex" justifyContent="center">
@@ -234,4 +210,4 @@ const ViewPayments = () => {
   );
 };
 
-export default ViewPayments;
+export default ReportedProducts;

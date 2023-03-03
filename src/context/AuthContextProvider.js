@@ -152,7 +152,7 @@ export const AuthContextProvider = ({ children }) => {
           setAuthToken(localStorage.getItem("auth-token"));
         if (localStorage.getItem("auth-token")) {
           getUserData(localStorage.getItem("auth-token")).then((getUserRes) => {
-            if (getUserRes.status === 200) {
+            if (getUserRes?.status === 200) {
               setCurrentUser(getUserRes.data);
             } else {
               userDataClenaUpOnLogout();
