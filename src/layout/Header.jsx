@@ -11,7 +11,7 @@ import {
 // import LinkList from "./LinkList";
 // import LeftNewNavbar from "./LeftNewNavbar";
 import Popover from "@mui/material/Popover";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContextProvider";
 import LeftNavbar from "./LeftNavbar";
 
@@ -33,11 +33,11 @@ const Header = () => {
       if (currentUser?.isApprovedAdmin) {
         return [
           { title: "Home", path: "/admin/dashboard" },
-          { title: "Admin", path: "/admin/create-admin-user" },
+          // { title: "Admin", path: "/admin/create-admin-user" },
           { title: "Artists", path: "/admin/approve-artist-user" },
           { title: "Payments", path: "/admin/see-all-payments" },
-          { title: "Delivery", path: "/admin/check-delivery-status" },
-          { title: "Collab", path: "/admin/configure-a-collab" },
+          // { title: "Delivery", path: "/admin/check-delivery-status" },
+          // { title: "Collab", path: "/admin/configure-a-collab" },
           { title: "Reported Product", path: "/admin/reported-products" },
         ];
       } else {
@@ -158,56 +158,6 @@ const Header = () => {
                     },
                   }}
                 >
-                  <Link
-                    style={{ textDecoration: "none", color: "black" }}
-                    to={`/marketplace/profile/${currentUser?.id}`}
-                  >
-                    <Typography
-                      sx={{ p: 1 }}
-                      onClick={() => {
-                        console.log("onclick is called 12");
-                      }}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width={14}
-                        height={18}
-                        viewBox="0 0 14 18"
-                        fill="none"
-                      >
-                        <path
-                          d="M6.99992 11.6443C10.6154 11.6443 13.6666 12.2318 13.6666 14.4985C13.6666 16.766 10.5954 17.3327 6.99992 17.3327C3.38523 17.3327 0.333252 16.7452 0.333252 14.4785C0.333252 12.211 3.4044 11.6443 6.99992 11.6443ZM6.99992 0.666016C9.44917 0.666016 11.4116 2.6277 11.4116 5.07523C11.4116 7.52275 9.44917 9.48527 6.99992 9.48527C4.5515 9.48527 2.58826 7.52275 2.58826 5.07523C2.58826 2.6277 4.5515 0.666016 6.99992 0.666016Z"
-                          fill="#555555"
-                        />
-                      </svg>
-                      My Profile
-                    </Typography>
-                  </Link>
-
-                  <Link
-                    style={{ textDecoration: "none", color: "black" }}
-                    to="/marketplace/settings"
-                  >
-                    <Typography
-                      sx={{ p: 1, borderTop: "1px solid #DDDDDD" }}
-                      onClick={handlePopoverClose}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width={16}
-                        height={18}
-                        viewBox="0 0 16 18"
-                        fill="none"
-                      >
-                        <path
-                          d="M8.59761 0.666016C9.22781 0.666016 9.79841 1.01602 10.1135 1.53268C10.2668 1.78268 10.369 2.09102 10.3435 2.41602C10.3264 2.66602 10.4031 2.91602 10.5393 3.14935C10.9737 3.85768 11.936 4.12435 12.6854 3.72435C13.5286 3.24102 14.5931 3.53268 15.0785 4.35768L15.6491 5.34102C16.1431 6.16602 15.8705 7.22435 15.0189 7.69935C14.295 8.12435 14.0395 9.06602 14.4739 9.78268C14.6101 10.0077 14.7634 10.1993 15.0019 10.316C15.2999 10.4743 15.5299 10.7243 15.6917 10.9743C16.0068 11.491 15.9812 12.1243 15.6747 12.6827L15.0785 13.6827C14.7634 14.216 14.1758 14.5493 13.5711 14.5493C13.2731 14.5493 12.9409 14.466 12.6684 14.2993C12.447 14.1577 12.1915 14.1077 11.919 14.1077C11.0759 14.1077 10.369 14.7993 10.3435 15.6243C10.3435 16.5827 9.55995 17.3327 8.58057 17.3327H7.42236C6.43446 17.3327 5.65096 16.5827 5.65096 15.6243C5.63393 14.7993 4.92708 14.1077 4.08396 14.1077C3.80292 14.1077 3.54743 14.1577 3.33453 14.2993C3.062 14.466 2.72135 14.5493 2.4318 14.5493C1.81862 14.5493 1.231 14.216 0.915894 13.6827L0.328268 12.6827C0.0131649 12.141 -0.00386769 11.491 0.311236 10.9743C0.447497 10.7243 0.702986 10.4743 0.992541 10.316C1.231 10.1993 1.38429 10.0077 1.52907 9.78268C1.95488 9.06602 1.69939 8.12435 0.975508 7.69935C0.132393 7.22435 -0.140129 6.16602 0.345301 5.34102L0.915894 4.35768C1.40984 3.53268 2.46586 3.24102 3.31749 3.72435C4.05841 4.12435 5.02076 3.85768 5.45509 3.14935C5.59135 2.91602 5.668 2.66602 5.65096 2.41602C5.63393 2.09102 5.72761 1.78268 5.88942 1.53268C6.20452 1.01602 6.77512 0.682682 7.39681 0.666016H8.59761ZM8.00998 6.64935C6.67292 6.64935 5.59135 7.69935 5.59135 9.00768C5.59135 10.316 6.67292 11.3577 8.00998 11.3577C9.34704 11.3577 10.4031 10.316 10.4031 9.00768C10.4031 7.69935 9.34704 6.64935 8.00998 6.64935Z"
-                          fill="#555555"
-                        />
-                      </svg>
-                      Account Settings
-                    </Typography>
-                  </Link>
-
                   <Typography
                     onClick={() => {
                       logoutUser();
