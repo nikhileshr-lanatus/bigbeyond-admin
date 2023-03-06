@@ -117,3 +117,4 @@ migrations/
 
 # env files
 *.env
+.env
