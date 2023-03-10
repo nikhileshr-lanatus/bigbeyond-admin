@@ -63,46 +63,46 @@ const ViewPayments = () => {
     {
       field: "id",
       headerName: "ID",
-      width: 60,
+      width: 80,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "net",
       headerName: "Net",
       headerClassName: "super-app-theme--header",
-      width: 120,
+      width: 180,
     },
     {
       field: "fee",
       headerName: "Fees",
       headerClassName: "super-app-theme--header",
-      width: 120,
+      width: 180,
     },
     {
       field: "amount",
       headerName: "Amount",
       headerClassName: "super-app-theme--header",
-      width: 120,
+      width: 180,
     },
     {
       field: "status",
       headerName: "Status",
       headerClassName: "super-app-theme--header",
-      width: 170,
+      width: 240,
       sortable: false,
     },
     {
       field: "currency",
       headerName: "Currency",
       headerClassName: "super-app-theme--header",
-      width: 140,
+      width: 180,
       sortable: false,
     },
     {
       field: "created",
       headerName: "Created On",
       headerClassName: "super-app-theme--header",
-      width: 140,
+      width: 180,
     },
 
     // {

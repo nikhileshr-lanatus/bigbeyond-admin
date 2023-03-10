@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Card,
@@ -8,7 +7,7 @@ import {
   Box,
   InputAdornment,
   IconButton,
-  Typography
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { userLogin } from "../api/users";
@@ -35,7 +34,11 @@ const SignIn = () => {
         setAuthToken(res.data.token);
         setCurrentUser(res.data.userData);
         navigate("/admin/dashboard");
-        showSnackBarNotification("success", "Logged in Successfully...!!!", 2000);
+        showSnackBarNotification(
+          "success",
+          "Logged in Successfully...!!!",
+          2000
+        );
       } else {
         showSnackBarNotification("info", "Invalid Credentials for Admin", 2000);
       }
@@ -80,12 +83,12 @@ const SignIn = () => {
             width: { xs: "90%", sm: "50%", md: "40%", lg: "25%" },
           }}
         >
-
           <Card
             sx={{
               padding: { xs: "0.2rem", md: "1rem" },
               marginY: "2rem",
-              boxShadow: "none",
+              boxShadow: "0.5rem 1rem 0.5rem  #c9c9c9",
+              border: "1px solid #555555",
             }}
           >
             <Box sx={{ marginBottom: "3rem" }}>
