@@ -1,8 +1,15 @@
+import { Box } from "@mui/system";
 import React from "react";
 const HomePage = () => {
-	return (
+  return (
     <React.Fragment>
-      <h1> This is Dashboard for admin users </h1>
+      <Box
+        sx={{
+          margin: "1rem auto 80rem",
+        }}
+      >
+        <h1> This is Dashboard for admin users </h1>
+      </Box>
     </React.Fragment>
   );
 };

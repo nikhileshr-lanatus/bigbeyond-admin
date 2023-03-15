@@ -63,7 +63,7 @@ const ReportedProducts = () => {
   return (
     <>
       <>
-        <h1 style={{ marginLeft: "4.5rem" }}> Reported Products </h1>
+        <h1 style={{ marginLeft: "3.5rem" }}> Reported Products </h1>
       </>
       {reportedData?.length > 0 ? (
         <Box display="flex" justifyContent="center">

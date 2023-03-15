@@ -221,7 +221,11 @@ const Header = () => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            "& :hover": {
+              cursor: "pointer",
+            },
           }}
+          onClick={() => navigate("/admin/dashboard")}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

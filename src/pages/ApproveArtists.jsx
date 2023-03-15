@@ -112,32 +112,32 @@ const ApproveArtists = () => {
       field: "userName",
       headerName: "Username",
       headerClassName: "super-app-theme--header",
-      width: 100,
+      width: 200,
     },
     {
       field: "email",
       headerName: "Email",
       headerClassName: "super-app-theme--header",
-      width: 170,
+      width: 380,
     },
     {
       field: "fullName",
       headerName: "Name",
       headerClassName: "super-app-theme--header",
-      width: 100,
+      width: 220,
     },
     {
       field: "isEmailVerified",
       headerName: "Email Verified",
       headerClassName: "super-app-theme--header",
-      width: 150,
+      width: 230,
     },
 
     {
       field: "view",
       headerName: "Approval",
       headerClassName: "super-app-theme--header",
-      width: 100,
+      width: 180,
       renderCell: ({ row }) => (
         <strong>
           <GridActionsCellItem

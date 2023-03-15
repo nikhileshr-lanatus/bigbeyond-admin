@@ -102,7 +102,7 @@ const ViewPayments = () => {
       field: "created",
       headerName: "Created On",
       headerClassName: "super-app-theme--header",
-      width: 180,
+      width: 170,
     },
 
     // {
@@ -198,8 +198,9 @@ const ViewPayments = () => {
       </Dialog>
       <>
         <>
-          <h1> Payments</h1>
+          <h1 style={{ marginLeft: "3.5rem" }}> Payments</h1>
         </>
+
         {paymentsData ? (
           <Box display="flex" justifyContent="center">
             <Box
@@ -213,10 +214,12 @@ const ViewPayments = () => {
                 },
               }}
             >
+              {console.log({ paymentsData })}
               <DataGrid
                 rows={paymentsData.map((item, index) => ({
                   ...item,
                   id: index + 1,
+                  amount: `$${item.amount / 100}`,
                   created: `${new Date(item.created * 1000).getDate()}-${
                     new Date(item.created * 1000).getMonth() + 1
                   }-${new Date(item.created * 1000).getFullYear()}`,
