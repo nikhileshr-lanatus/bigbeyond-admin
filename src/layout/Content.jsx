@@ -25,42 +25,48 @@ const Content = () => {
           maxWidth: "100vw",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
+          // justifyContent: "space-between",
         }}
       >
-        <Header />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              currentUser ? (
-                <Navigate to="/dashboard" />
-              ) : (
-                <Navigate to="/sign-in" />
-              )
-            }
-          />
-          <Route path="/admin/dashboard" element={<HomePage />} />
-          <Route path="/admin/create-admin-user" element={<CreateAdmin />} />
-          <Route
-            path="/admin/approve-artist-user"
-            element={<ApproveArtists />}
-          />
-          <Route path="/admin/see-all-payments" element={<ViewPayments />} />
-          <Route path="/admin/check-delivery-status" element={<ComingSoon />} />
-          <Route path="/admin/configure-a-collab" element={<ComingSoon />} />
-          <Route
-            path="/admin/reported-products"
-            element={<ReportedProducts />}
-          />
+        <Box sx={{ marginBottom: "3rem" }}>
+          <Header />
+        </Box>
+        <Box>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                currentUser ? (
+                  <Navigate to="/dashboard" />
+                ) : (
+                  <Navigate to="/sign-in" />
+                )
+              }
+            />
+            <Route path="/admin/dashboard" element={<HomePage />} />
+            <Route path="/admin/create-admin-user" element={<CreateAdmin />} />
+            <Route
+              path="/admin/approve-artist-user"
+              element={<ApproveArtists />}
+            />
+            <Route path="/admin/see-all-payments" element={<ViewPayments />} />
+            <Route
+              path="/admin/check-delivery-status"
+              element={<ComingSoon />}
+            />
+            <Route path="/admin/configure-a-collab" element={<ComingSoon />} />
+            <Route
+              path="/admin/reported-products"
+              element={<ReportedProducts />}
+            />
 
-          <Route path="/sign-in" element={<SignIn />} />
-          {/* <Route path="/admin/approve-product-request" element={<ComingSoon />}/> */}
-          {/* <Route path="/sign-up" element={<SignUp />} /> */}
-          {/* <Route path="/blogs" element={<Blogs />} /> */}
-          <Route exact path="*" element={<PageNotFound />} />
-        </Routes>
-        {/* <Footer /> */}
+            <Route path="/sign-in" element={<SignIn />} />
+            {/* <Route path="/admin/approve-product-request" element={<ComingSoon />}/> */}
+            {/* <Route path="/sign-up" element={<SignUp />} /> */}
+            {/* <Route path="/blogs" element={<Blogs />} /> */}
+            <Route exact path="*" element={<PageNotFound />} />
+          </Routes>
+        </Box>
       </Box>
     </>
   );
