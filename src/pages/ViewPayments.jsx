@@ -214,7 +214,6 @@ const ViewPayments = () => {
                 },
               }}
             >
-              {console.log({ paymentsData })}
               <DataGrid
                 rows={paymentsData.map((item, index) => ({
                   ...item,

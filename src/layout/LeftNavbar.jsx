@@ -41,9 +41,7 @@ export default function LeftNavbar(props) {
     >
       <List>
         <ListItem key={"logo"} disablePadding>
-          <ListItemButton
-            onClick={() => navigate("/admin/dashboard")}
-          >
+          <ListItemButton onClick={() => navigate("/admin/dashboard")}>
             <ListItemIcon></ListItemIcon>
             <ListItemText
               primary={
@@ -75,16 +73,15 @@ export default function LeftNavbar(props) {
         {props?.navigationList &&
           props?.navigationList?.map((element, index) => (
             <ListItem key={element.title} disablePadding>
-              <ListItemButton>
+              <ListItemButton
+                onClick={() => {
+                  navigate(element.path);
+                }}
+              >
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
-                <ListItemText
-                  primary={element.title}
-                  onClick={() => {
-                    navigate(element.path);
-                  }}
-                />
+                <ListItemText primary={element.title} />
               </ListItemButton>
             </ListItem>
           ))}

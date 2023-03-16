@@ -109,31 +109,6 @@ const ApproveArtists = () => {
 
   const columns = [
     {
-      field: "userName",
-      headerName: "Username",
-      headerClassName: "super-app-theme--header",
-      width: 200,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      headerClassName: "super-app-theme--header",
-      width: 380,
-    },
-    {
-      field: "fullName",
-      headerName: "Name",
-      headerClassName: "super-app-theme--header",
-      width: 220,
-    },
-    {
-      field: "isEmailVerified",
-      headerName: "Email Verified",
-      headerClassName: "super-app-theme--header",
-      width: 230,
-    },
-
-    {
       field: "view",
       headerName: "Approval",
       headerClassName: "super-app-theme--header",
@@ -151,10 +126,36 @@ const ApproveArtists = () => {
         </strong>
       ),
     },
+    {
+      field: "userName",
+      headerName: "Username",
+      headerClassName: "super-app-theme--header",
+      width: 200,
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      headerClassName: "super-app-theme--header",
+      width: 380,
+    },
+    {
+      field: "fullName",
+      headerName: "Name",
+      headerClassName: "super-app-theme--header",
+      width: 220,
+    },
+    // {
+    //   field: "isEmailVerified",
+    //   headerName: "Email Verified",
+    //   headerClassName: "super-app-theme--header",
+    //   width: 230,
+    // },
   ];
 
   return (
     <>
+      <h1 style={{ marginLeft: "3.5rem" }}> Artists </h1>
+
       <Dialog
         open={openDialog}
         onClose={() => {
@@ -292,7 +293,6 @@ const ApproveArtists = () => {
                   gap: "1rem",
                 }}
               >
-                {console.log({ selectedArtist })}
                 {selectedArtist?.imageData?.map((image) => {
                   return (
                     <Box sx={{ position: "relative" }}>
