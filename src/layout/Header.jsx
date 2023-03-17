@@ -14,6 +14,10 @@ import Popover from "@mui/material/Popover";
 // import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContextProvider";
 import LeftNavbar from "./LeftNavbar";
+import { Home } from "@mui/icons-material";
+import EngineeringIcon from "@mui/icons-material/Engineering";
+import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
+import AnnouncementIcon from "@mui/icons-material/Announcement";
 
 const Header = () => {
   // const [anchorElNav, setAnchorElNav] = useState(null);
@@ -32,13 +36,25 @@ const Header = () => {
     const getPages = () => {
       if (currentUser?.isApprovedAdmin) {
         return [
-          { title: "Home", path: "/admin/dashboard" },
+          { title: "Home", path: "/admin/dashboard", icon: <Home /> },
           // { title: "Admin", path: "/admin/create-admin-user" },
-          { title: "Artists", path: "/admin/approve-artist-user" },
-          { title: "Payments", path: "/admin/see-all-payments" },
+          {
+            title: "Artists",
+            path: "/admin/approve-artist-user",
+            icon: <EngineeringIcon />,
+          },
+          {
+            title: "Payments",
+            path: "/admin/see-all-payments",
+            icon: <RequestQuoteIcon />,
+          },
           // { title: "Delivery", path: "/admin/check-delivery-status" },
           // { title: "Collab", path: "/admin/configure-a-collab" },
-          { title: "Reported Product", path: "/admin/reported-products" },
+          {
+            title: "Reported Product",
+            path: "/admin/reported-products",
+            icon: <AnnouncementIcon />,
+          },
         ];
       } else {
         return [];
