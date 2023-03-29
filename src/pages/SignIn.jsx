@@ -88,7 +88,7 @@ const SignIn = () => {
               padding: { xs: "0.2rem", md: "1rem" },
               marginY: "2rem",
               boxShadow: "0.5rem 1rem 0.5rem  #c9c9c9",
-              border: "1px solid #555555",
+              border: "1px solid #0f0f0f",
             }}
           >
             <Box sx={{ marginBottom: "3rem" }}>
@@ -116,7 +116,7 @@ const SignIn = () => {
                 <Input
                   margin="normal"
                   variant="filled"
-                  placeholder="Email or Username*"
+                  placeholder="Email OR Username* "
                   size="larger"
                   type="email"
                   onChange={handleUserNameChange}
