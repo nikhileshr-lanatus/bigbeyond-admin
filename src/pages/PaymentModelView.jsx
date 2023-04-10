@@ -117,7 +117,7 @@ const PaymentCalculationDialog = ({
                   BigBeyond Fees
                 </StyledTableCell>
                 <StyledTableCell align="right">
-                  {paymentObj.artistCommission}
+                  {paymentObj?.artistCommission}
                 </StyledTableCell>
               </StyledTableRow>
               <StyledTableRow className="finalTotal">
@@ -125,7 +125,7 @@ const PaymentCalculationDialog = ({
                   Pending Total Amount
                 </StyledTableCell>
                 <StyledTableCell align="right">
-                  {paymentObj.payableAmount}
+                  {paymentObj?.payableAmount}
                 </StyledTableCell>
               </StyledTableRow>
             </TableBody>
