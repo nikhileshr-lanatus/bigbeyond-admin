@@ -14,6 +14,7 @@ import { useAuthContext } from "../context/AuthContextProvider";
 import ApproveArtists from "../pages/ApproveArtists";
 import ViewPayments from "../pages/ViewPayments";
 import ReportedProducts from "../pages/ReportedProducts";
+import PaymentRequests from "../pages/PaymentRequests";
 
 const Content = () => {
   const { currentUser } = useAuthContext();
@@ -50,6 +51,7 @@ const Content = () => {
               element={<ApproveArtists />}
             />
             <Route path="/admin/see-all-payments" element={<ViewPayments />} />
+            <Route path="/admin/requested-payments" element={<PaymentRequests />} />
             <Route
               path="/admin/check-delivery-status"
               element={<ComingSoon />}

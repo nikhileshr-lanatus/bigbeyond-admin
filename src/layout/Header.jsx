@@ -48,6 +48,11 @@ const Header = () => {
             path: "/admin/see-all-payments",
             icon: <RequestQuoteIcon />,
           },
+          {
+            title: "Payment Requests",
+            path: "/admin/requested-payments",
+            icon: <RequestQuoteIcon />,
+          },
           // { title: "Delivery", path: "/admin/check-delivery-status" },
           // { title: "Collab", path: "/admin/configure-a-collab" },
           {

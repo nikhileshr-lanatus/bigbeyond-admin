@@ -71,38 +71,41 @@ const ViewPayments = () => {
       headerName: "Net",
       headerClassName: "super-app-theme--header",
       width: 180,
+      flex: 1
     },
     {
       field: "fee",
       headerName: "Fees",
       headerClassName: "super-app-theme--header",
       width: 180,
+      flex: 1
     },
     {
       field: "amount",
       headerName: "Amount",
       headerClassName: "super-app-theme--header",
       width: 180,
+      flex: 1,
     },
     {
       field: "status",
       headerName: "Status",
       headerClassName: "super-app-theme--header",
-      width: 240,
+      width: 100,
       sortable: false,
     },
     {
       field: "currency",
       headerName: "Currency",
       headerClassName: "super-app-theme--header",
-      width: 180,
+      width: 150,
       sortable: false,
     },
     {
       field: "created",
       headerName: "Created On",
       headerClassName: "super-app-theme--header",
-      width: 170,
+      width: 120,
     },
 
     // {
@@ -219,9 +222,8 @@ const ViewPayments = () => {
                   ...item,
                   id: index + 1,
                   amount: `$${item.amount / 100}`,
-                  created: `${new Date(item.created * 1000).getDate()}-${
-                    new Date(item.created * 1000).getMonth() + 1
-                  }-${new Date(item.created * 1000).getFullYear()}`,
+                  created: `${new Date(item.created * 1000).getDate()}-${new Date(item.created * 1000).getMonth() + 1
+                    }-${new Date(item.created * 1000).getFullYear()}`,
                 }))}
                 columns={columns}
                 experimentalFeatures={{ newEditingApi: true }}
