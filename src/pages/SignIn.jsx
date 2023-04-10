@@ -162,18 +162,6 @@ const SignIn = () => {
                   variant="contained"
                   type="submit"
                   onClick={handleSignIn}
-                  sx={{
-                    margin: "2rem auto",
-                    background: "#333333",
-                    color: "#e6e6e6",
-                    borderRadius: "0",
-                    padding: ".8rem",
-                    ":hover": {
-                      background: "#000000",
-                      color: "#ffffff",
-                      border: "none",
-                    },
-                  }}
                 >
                   Login
                 </Button>

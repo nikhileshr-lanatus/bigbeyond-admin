@@ -8,6 +8,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { BrowserRouter } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 import { AuthContextProvider } from "./context/AuthContextProvider";
+import Theme from "./layout/Theme";
 
 axios.defaults.baseURL = `${process.env.REACT_APP_API_BASE_URL}`;
 
@@ -15,14 +16,16 @@ function App() {
   return (
     <React.Fragment>
       <BrowserRouter>
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <ScrollToTop />
-          <SnackbarProvider hideIconVariant={false} maxSnack={3}>
-            <AuthContextProvider>
-              <Content />
-            </AuthContextProvider>
-          </SnackbarProvider>
-        </ErrorBoundary>
+        <Theme>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <ScrollToTop />
+            <SnackbarProvider hideIconVariant={false} maxSnack={3}>
+              <AuthContextProvider>
+                <Content />
+              </AuthContextProvider>
+            </SnackbarProvider>
+          </ErrorBoundary>
+        </Theme>
       </BrowserRouter>
     </React.Fragment>
   );

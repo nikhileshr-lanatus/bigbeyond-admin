@@ -329,13 +329,7 @@ const ApproveArtists = () => {
         <DialogActions>
           {!selectedArtist?.isApprovedArtist && (
             <Button
-              sx={{
-                borderRadius: "0",
-                background: "#131313",
-                color: "whitesmoke",
-              }}
               variant="contained"
-              color="primary"
               onClick={approveArtist}
               disabled={selectedArtist?.isApprovedArtist}
             >
@@ -347,8 +341,10 @@ const ApproveArtists = () => {
               setOpenDialog(false);
               setselectedArtist();
             }}
-            variant="outlined"
-            color="primary"
+            variant="contained"
+            sx={{
+              marginRight: "1rem",
+            }}
           >
             Cancel
           </Button>

@@ -327,20 +327,10 @@ const Header = () => {
               ) : (
                 <Button
                   variant="contained"
-                  sx={{
-                    backgroundColor: "#131313",
-                    color: "white",
-                    borderRadius: "0",
-                    marginLeft: "1rem",
-                    border: "1px solid #131313",
-                    marginRight: "3rem",
-                    ":hover": {
-                      background: "whitesmoke",
-                      color: "#131313",
-                      boxShadow: "none",
-                    },
-                  }}
                   onClick={() => navigate("/sign-in")}
+                  sx={{
+                    mr: "1rem",
+                  }}
                 >
                   Sign In
                 </Button>

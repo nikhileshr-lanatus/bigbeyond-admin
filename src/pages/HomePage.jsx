@@ -8,7 +8,10 @@ const HomePage = () => {
           margin: "1rem auto 80rem",
         }}
       >
-        <h1> This is Dashboard for admin users </h1>
+        <h1 style={{ textAlign: "center" }}>
+          {" "}
+          This is Dashboard for admin users{" "}
+        </h1>
       </Box>
     </React.Fragment>
   );
