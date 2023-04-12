@@ -103,7 +103,11 @@ const PaymentRequests = () => {
             width="100%"
             display={"flex"}
             justifyContent={"center"}
-            sx={{ cursor: "pointer", color: "gray", ":hover": { color: "black" } }}
+            sx={{
+              cursor: "pointer",
+              color: "gray",
+              ":hover": { color: "black" },
+            }}
             alignItems={"center"}
             height={"100%"}
           >
@@ -120,44 +124,41 @@ const PaymentRequests = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          params.row.isPaymentRequested && params.row.payableAmount &&
-          (
-            loading[params.row.id] ? (
-              <Typography
-                width={100}
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  cursor: "pointer",
-                }}
-                align="center"
-              >
-                <CircularProgress size={20} />
-              </Typography>
-            ) : (
-              <Typography
-                onClick={async () => {
-                  payTheArtist(params.row);
-                }}
-                width={100}
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  cursor: "pointer",
-                  ":hover": {
-                    color: "green"
-                  }
-                }}
-                align="center"
-              >
-
-                <CurrencyExchangeIcon />
-
-              </Typography>
-            )
-          )
+          params.row.isPaymentRequested &&
+          params.row.payableAmount &&
+          (loading[params.row.id] ? (
+            <Typography
+              width={100}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+              align="center"
+            >
+              <CircularProgress size={20} />
+            </Typography>
+          ) : (
+            <Typography
+              onClick={async () => {
+                payTheArtist(params.row);
+              }}
+              width={100}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+                ":hover": {
+                  color: "green",
+                },
+              }}
+              align="center"
+            >
+              <CurrencyExchangeIcon />
+            </Typography>
+          ))
         );
       },
     },
@@ -209,15 +210,26 @@ const PaymentRequests = () => {
         amount: data?.payableAmount?.split(" ")[1],
         artistId: data.artistId,
         productId: data.id,
+        productName: data.name,
+        metadata: {
+          productId: data.id,
+          email: data.email,
+          productName: data.name,
+          amount: data?.payableAmount?.split(" ")[1],
+        },
         currency: "usd",
       };
-      setLoading({ ...loading, [data.id]: true })
+      setLoading({ ...loading, [data.id]: true });
       try {
-        let a = await payArtistApiStripeCallOnPayNow(apiData, data)
+        let a = await payArtistApiStripeCallOnPayNow(apiData, data);
         if (a) {
           const tempPaymentData = paymentsData.map((item) => {
             if (item.id === data.id) {
-              return { ...item, isPaymentRequested: false, payableAmount: "$ 0" };
+              return {
+                ...item,
+                isPaymentRequested: false,
+                payableAmount: "$ 0",
+              };
             }
             return item;
           });
@@ -226,19 +238,13 @@ const PaymentRequests = () => {
       } catch (error) {
         showSnackBarNotification("error", error.message, 1500);
       }
-
     } else if (data.paymentType === "ETH") {
       // payArtistInEthViaWallet();
       //once payment is success ful call markArtistPaidForOrders()
     } else {
-      showSnackBarNotification(
-        "success",
-        "Invalid payment type found",
-        2000
-      );
+      showSnackBarNotification("success", "Invalid payment type found", 2000);
     }
-    setLoading({ ...loading, [data.id]: false })
-
+    setLoading({ ...loading, [data.id]: false });
   };
   const payArtistApiStripeCallOnPayNow = async (data, allData) => {
     try {
@@ -251,7 +257,9 @@ const PaymentRequests = () => {
         await markArtistPaidForOrders(allData?.dueOrdersList);
         return true;
       } else {
-        throw new Error(`Some Issue on Stripe side message: ${createPayment?.data?.msg} `);
+        throw new Error(
+          `Some Issue on Stripe side message: ${createPayment?.data?.msg} `
+        );
       }
     } catch (error) {
       showSnackBarNotification("info", error.message, 5000);
@@ -275,11 +283,10 @@ const PaymentRequests = () => {
       });
   };
 
-  console.log({ loading })
   const getPayments = async () => {
     setLoadingData(true);
     getAllPaymentRequests(authToken).then((res) => {
-      const loadingTemp = {}
+      const loadingTemp = {};
       const temp = res?.data.map((item) => {
         const b = item?.users;
         loadingTemp[item.id] = false;
@@ -297,7 +304,7 @@ const PaymentRequests = () => {
           amount: item?.price,
           fullName: b.fullName ? b.fullName : "unknown",
         };
-      })
+      });
       setPaymentsData(temp);
       setLoading(loadingTemp);
       setLoadingData(false);
@@ -308,21 +315,22 @@ const PaymentRequests = () => {
     getPayments();
   }, []);
 
-
   if (loadingData) {
-    return <Box sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '50vh',
-      width: '100vw'
-    }}>
-      <CircularProgress />
-
-    </Box>
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "50vh",
+          width: "100vw",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
   return (
-
     <>
       <PaymentCalculationDialog
         loading={loading}
@@ -353,8 +361,9 @@ const PaymentRequests = () => {
                 ...item,
                 key: index,
                 amount: `$ ${item.amount}`,
-                created: `${new Date(item.created * 1000).getDate()} -${new Date(item.created * 1000).getMonth() + 1
-                  } -${new Date(item.created * 1000).getFullYear()} `,
+                created: `${new Date(item.created * 1000).getDate()} -${
+                  new Date(item.created * 1000).getMonth() + 1
+                } -${new Date(item.created * 1000).getFullYear()} `,
               }))}
               disableSelectionOnClick
               isRowSelectable={false}
