@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 // import { GridActionsCellItem } from "@mui/x-data-grid";
 
 import { useAuthContext } from "../context/AuthContextProvider";
@@ -8,17 +8,21 @@ import { getAllReportedProduct } from "../api/reportProduct";
 
 const ReportedProducts = () => {
   const [reportedData, setReportedData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const { authToken } = useAuthContext();
 
   useEffect(() => {
     const getReportData = (token) => {
+      setLoading(true);
       getAllReportedProduct(token)
         .then((res) => {
           setReportedData(res.data);
+          setLoading(false);
         })
         .catch((allReportProduct) => {
           console.log({ allReportProduct });
+          setLoading(false);
         });
     };
     authToken && getReportData(authToken);
@@ -60,10 +64,27 @@ const ReportedProducts = () => {
     },
   ];
 
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "50vh",
+          width: "100vw",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
   return (
     <>
       <>
-        <h1 style={{ marginLeft: "3.5rem" }}> Reported Products </h1>
+        <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+          <h1 style={{ width: "90%" }}> Reported Products</h1>
+        </Box>
       </>
       {reportedData?.length > 0 ? (
         <Box display="flex" justifyContent="center">
@@ -84,9 +105,8 @@ const ReportedProducts = () => {
                 productName: item.products.name,
                 userName: item.products.users.userName,
                 id: index + 1,
-                createdDate: `${new Date(item.createdDate).getDate()}-${
-                  new Date(item.createdDate).getMonth() + 1
-                }-${new Date(item.createdDate).getFullYear()}`,
+                createdDate: `${new Date(item.createdDate).getDate()}-${new Date(item.createdDate).getMonth() + 1
+                  }-${new Date(item.createdDate).getFullYear()}`,
               }))}
               columns={columns}
               experimentalFeatures={{ newEditingApi: true }}

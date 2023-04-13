@@ -3,6 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import {
   Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -25,6 +26,7 @@ const ApproveArtists = () => {
   const [artistUserData, setArtistUserData] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedArtist, setselectedArtist] = useState();
+  const [loading, setLoading] = useState(false);
 
   const { authToken, showSnackBarNotification } = useAuthContext();
   const commission = useRef();
@@ -54,6 +56,7 @@ const ApproveArtists = () => {
   };
 
   const getArtistData = () => {
+    setLoading(true);
     getAllArtistUsers(authToken)
       .then((getAdminUserRes) => {
         if (getAdminUserRes?.status === 200) {
@@ -61,15 +64,18 @@ const ApproveArtists = () => {
         } else {
           showSnackBarNotification("info", "Please Login to continue", 2000);
         }
+        setLoading(false);
       })
       .catch((getAdminUserErrorRes) => {
         captureError(getAdminUserErrorRes.data, authToken);
+        setLoading(false);
       });
   };
 
   useEffect(() => {
     //get all the artist data for admin
     const getArtistDataOnFirstLoad = () => {
+      setLoading(true);
       getAllArtistUsers(authToken)
         .then((getAdminUserRes) => {
           if (getAdminUserRes?.status === 200) {
@@ -77,9 +83,11 @@ const ApproveArtists = () => {
           } else {
             showSnackBarNotification("info", "Please Login to continue", 2000);
           }
+          setLoading(false);
         })
         .catch((getAdminUserErrorRes) => {
           captureError(getAdminUserErrorRes.data, authToken);
+          setLoading(false);
         });
     };
 
@@ -112,9 +120,14 @@ const ApproveArtists = () => {
       field: "view",
       headerName: "Approval",
       headerClassName: "super-app-theme--header",
-      width: 180,
+      width: 80,
       renderCell: ({ row }) => (
-        <strong>
+        <Typography sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}>
           <GridActionsCellItem
             //   icon={<VisibilityIcon />}
 
@@ -123,7 +136,7 @@ const ApproveArtists = () => {
             onClick={handleViewClick(row)}
             color="inherit"
           />
-        </strong>
+        </Typography>
       ),
     },
     {
@@ -133,16 +146,18 @@ const ApproveArtists = () => {
       width: 200,
     },
     {
-      field: "email",
-      headerName: "Email",
-      headerClassName: "super-app-theme--header",
-      width: 380,
-    },
-    {
       field: "fullName",
       headerName: "Name",
       headerClassName: "super-app-theme--header",
       width: 220,
+      flex: 1,
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      headerClassName: "super-app-theme--header",
+      width: 380,
+      flex: 1,
     },
     // {
     //   field: "isEmailVerified",
@@ -152,9 +167,26 @@ const ApproveArtists = () => {
     // },
   ];
 
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "50vh",
+          width: "100vw",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
   return (
     <>
-      <h1 style={{ marginLeft: "3.5rem" }}> Artists </h1>
+      <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+        <h1 style={{ width: "90%" }}> Artists</h1>
+      </Box>
 
       <Dialog
         open={openDialog}

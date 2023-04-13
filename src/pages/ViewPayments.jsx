@@ -3,6 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import {
   Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -20,16 +21,18 @@ const ViewPayments = () => {
   const [paymentsData, setpaymentsData] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedPayment, setselectedPayment] = useState();
+  const [loading, setLoading] = useState(false)
 
   const { authToken } = useAuthContext();
 
   useEffect(() => {
     //get all the artist data for admin
+    setLoading(true)
     const getPaymentDataOnFirstLoad = () => {
       getAllArtistUsers(authToken)
         .then((getAdminUserRes) => {
           if (getAdminUserRes?.status === 200) {
-            setpaymentsData(getAdminUserRes.data);
+            // setpaymentsData(getAdminUserRes.data);
           }
         })
         .catch((getAdminUserErrorRes) => {
@@ -38,13 +41,15 @@ const ViewPayments = () => {
     };
 
     const getPaymentData = (token) => {
-      getAllPaymentData({ count: 20 }, token)
+      getAllPaymentData({ count: 1000 }, token)
         .then((allPaymentRes) => {
           // console.log({ allPaymentRes });
           setpaymentsData(allPaymentRes.data.data);
+          setLoading(false)
         })
         .catch((allPaymentErr) => {
           console.log({ allPaymentErr });
+          setLoading(false)
         });
     };
 
@@ -67,22 +72,23 @@ const ViewPayments = () => {
       headerClassName: "super-app-theme--header",
     },
     {
-      field: "net",
-      headerName: "Net",
+      field: "amount",
+      headerName: "Amount",
       headerClassName: "super-app-theme--header",
       width: 180,
-      flex: 1
+      flex: 1,
     },
     {
       field: "fee",
       headerName: "Fees",
       headerClassName: "super-app-theme--header",
       width: 180,
-      flex: 1
+      flex: 1,
     },
+
     {
-      field: "amount",
-      headerName: "Amount",
+      field: "net",
+      headerName: "Net",
       headerClassName: "super-app-theme--header",
       width: 180,
       flex: 1,
@@ -128,6 +134,21 @@ const ViewPayments = () => {
     // },
   ];
 
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "50vh",
+          width: "100vw",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
   return (
     <>
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
@@ -201,7 +222,9 @@ const ViewPayments = () => {
       </Dialog>
       <>
         <>
-          <h1 style={{ marginLeft: "3.5rem" }}> Payments</h1>
+          <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+            <h1 style={{ width: "90%" }}> Payment</h1>
+          </Box>
         </>
 
         {paymentsData ? (
@@ -221,7 +244,11 @@ const ViewPayments = () => {
                 rows={paymentsData.map((item, index) => ({
                   ...item,
                   id: index + 1,
-                  amount: `$${item.amount / 100}`,
+                  net: `${item.net / 100}`,
+                  fee: `${item.fee / 100}`,
+                  amount: `${item.amount / 100}`,
+                  status: item.status === "available" ? "Debit" : "Credit",
+                  currency: item.currency === "usd" ? "USD" : "",
                   created: `${new Date(item.created * 1000).getDate()}-${new Date(item.created * 1000).getMonth() + 1
                     }-${new Date(item.created * 1000).getFullYear()}`,
                 }))}
