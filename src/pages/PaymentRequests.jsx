@@ -84,7 +84,7 @@ const PaymentRequests = () => {
     },
     {
       field: "paymentRequestedDate",
-      headerName: "Requested",
+      headerName: "Requested On",
       headerClassName: "super-app-theme--header",
       width: 170,
     },
@@ -194,7 +194,7 @@ const PaymentRequests = () => {
       const totalOrders = orders.length;
       const totalQty = orders.reduce((prev, cur) => prev + cur.quantity, 0);
 
-      const deliveredOrdersWithArtistNotPaid = orders.filter(
+      const deliveredOrdersWithArtistNotPaid = orders?.filter(
         (o) => o.isArtistPaid === false && o.deliveryStatus === "delivered"
       );
 
@@ -277,7 +277,7 @@ const PaymentRequests = () => {
         data,
         authToken
       );
-      if (createPayment.status === 170) {
+      if (createPayment.status === 200) {
         showSnackBarNotification("success", "Payment done for artist", 5000);
         await markArtistPaidForOrders(allData?.dueOrdersList);
         return true;
