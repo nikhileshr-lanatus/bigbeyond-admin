@@ -22,6 +22,16 @@ export const getAllPaymentRequests = async (token) => {
   }
 };
 
+export const getAllStripePaymentDetails = async (token) => {
+  try {
+    const res = await axios.get("get-user-payment-data", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res;
+  } catch (err) {
+    return err.response;
+  }
+};
 
 export const createPaymentForArtistUsingStripe = async (data, token) => {
   try {

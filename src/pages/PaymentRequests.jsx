@@ -6,13 +6,14 @@ import { CircularProgress, Typography } from "@mui/material";
 import {
   createPaymentForArtistUsingStripe,
   getAllPaymentRequests,
+  getAllStripePaymentDetails,
   updateArtistPaymentStatusForOrderData,
 } from "../api/payment";
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import MoneyOffIcon from '@mui/icons-material/MoneyOff';
 import { useEffect } from "react";
 import { useAuthContext } from "../context/AuthContextProvider";
-import { Close, Done } from "@mui/icons-material";
 import EyeOpen from "../assets/svgs/EyeOpen";
-import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import PaymentCalculationDialog from "./PaymentModelView";
 
 const PaymentRequests = () => {
@@ -46,13 +47,13 @@ const PaymentRequests = () => {
     },
     {
       field: "amount",
-      headerName: "Total Amount",
+      headerName: "Price",
       headerClassName: "super-app-theme--header",
       maxWidth: 100,
     },
     {
       field: "payableAmount",
-      headerName: "Amount",
+      headerName: "Payable Amount",
       headerClassName: "super-app-theme--header",
       width: 100,
     },
@@ -61,6 +62,7 @@ const PaymentRequests = () => {
       headerName: "Status",
       headerClassName: "super-app-theme--header",
       width: 100,
+
       renderCell: (params) => (
         <Typography
           variant="body2"
@@ -81,10 +83,10 @@ const PaymentRequests = () => {
       sortable: false,
     },
     {
-      field: "createdDate",
+      field: "paymentRequestedDate",
       headerName: "Requested",
       headerClassName: "super-app-theme--header",
-      width: 120,
+      width: 170,
     },
     {
       field: "view",
@@ -124,8 +126,8 @@ const PaymentRequests = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          params.row.isPaymentRequested &&
-          params.row.payableAmount &&
+          params?.row?.isPaymentRequested &&
+          params?.row?.payableAmount &&
           (loading[params.row.id] ? (
             <Typography
               width={100}
@@ -149,18 +151,40 @@ const PaymentRequests = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                color: "green",
                 cursor: "pointer",
                 ":hover": {
-                  color: "green",
                 },
               }}
               align="center"
             >
-              <CurrencyExchangeIcon />
+              <AttachMoneyIcon />
             </Typography>
-          ))
+          )) || (
+            <Typography
+              width={100}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                color: "red",
+                cursor: "pointer",
+                ":hover": {
+                },
+              }}
+            >
+              <MoneyOffIcon />
+            </Typography >
+          )
+
         );
       },
+    },
+    {
+      field: "date",
+      headerName: "Paid On",
+      headerClassName: "super-app-theme--header",
+      width: 170,
     },
   ];
 
@@ -193,7 +217,7 @@ const PaymentRequests = () => {
         dueOrders: deliveredOrdersWithArtistNotPaid.length,
         dueOrdersList: deliveredOrdersWithArtistNotPaid,
         dueQty: deliveredOrdersQuantityWithArtistNotPaid,
-        amount: orders[0].amount,
+        amount: orders[0].amount * deliveredOrdersQuantityWithArtistNotPaid,
         dueAmount: amountToPay,
         paymentType: product?.paymentType?.name,
         artistCommission: `${artistCommission}%`,
@@ -246,13 +270,14 @@ const PaymentRequests = () => {
     }
     setLoading({ ...loading, [data.id]: false });
   };
+
   const payArtistApiStripeCallOnPayNow = async (data, allData) => {
     try {
       const createPayment = await createPaymentForArtistUsingStripe(
         data,
         authToken
       );
-      if (createPayment.status === 200) {
+      if (createPayment.status === 170) {
         showSnackBarNotification("success", "Payment done for artist", 5000);
         await markArtistPaidForOrders(allData?.dueOrdersList);
         return true;
@@ -266,6 +291,7 @@ const PaymentRequests = () => {
       throw new Error("Some Issue on Stripe side");
     }
   };
+
   const markArtistPaidForOrders = async (data) => {
     // const updatePayStatus = await
     updateArtistPaymentStatusForOrderData(data, authToken)
@@ -285,6 +311,19 @@ const PaymentRequests = () => {
 
   const getPayments = async () => {
     setLoadingData(true);
+    let tempPaymentData = {}
+    getAllStripePaymentDetails(authToken).then((res) => {
+      const temp = res.data.map(i => {
+        const productId = i?.comments.split(" ");
+        return {
+          paymentReceiverId: i?.paymentReceiverId,
+          date: i?.createdDate,
+          productId: !isNaN(Number(productId[productId.length - 1])) ? Number(productId[productId.length - 1]) : null,
+        }
+      })
+      tempPaymentData = temp
+    });
+
     getAllPaymentRequests(authToken).then((res) => {
       const loadingTemp = {};
       const temp = res?.data.map((item) => {
@@ -294,15 +333,18 @@ const PaymentRequests = () => {
         delete b.id;
         let a = handleViewClick(item);
         delete a?.id;
+        const date = tempPaymentData?.filter(i => i.productId === item.id)[0]?.date;
+        const requestedDate = item?.paymentRequestedDate ? new Date(item?.paymentRequestedDate).toLocaleString() : ""
         return {
           ...item,
-          createdDate: item.createdDate.split("T")[0],
+          paymentRequestedDate: requestedDate,
           artistId: artistId,
           paymentType: item?.paymentType?.name,
           ...a,
           ...b,
           amount: item?.price,
           fullName: b.fullName ? b.fullName : "unknown",
+          date: date ? new Date(date).toLocaleString() : "",
         };
       });
       setPaymentsData(temp);
@@ -340,7 +382,9 @@ const PaymentRequests = () => {
         onClickCancel={() => setOpen(false)}
       />
       <>
-        <h1 style={{ marginLeft: "3.5rem" }}> Payments</h1>
+        <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+          <h1 style={{ width: "90%" }}> Payment Requests</h1>
+        </Box>
       </>
 
       {paymentsData ? (
@@ -361,9 +405,8 @@ const PaymentRequests = () => {
                 ...item,
                 key: index,
                 amount: `$ ${item.amount}`,
-                created: `${new Date(item.created * 1000).getDate()} -${
-                  new Date(item.created * 1000).getMonth() + 1
-                } -${new Date(item.created * 1000).getFullYear()} `,
+                created: `${new Date(item.created * 1000).getDate()} -${new Date(item.created * 1000).getMonth() + 1
+                  } -${new Date(item.created * 1000).getFullYear()} `,
               }))}
               disableSelectionOnClick
               isRowSelectable={false}
