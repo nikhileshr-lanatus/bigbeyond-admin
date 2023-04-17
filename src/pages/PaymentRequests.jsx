@@ -1,20 +1,18 @@
 import React from "react";
 import { useState } from "react";
-import { Box } from "@mui/system";
 import { DataGrid } from "@mui/x-data-grid";
-import { CircularProgress, Typography } from "@mui/material";
+import { Button, CircularProgress, Typography, Box } from "@mui/material";
 import {
   createPaymentForArtistUsingStripe,
   getAllPaymentRequests,
   getAllStripePaymentDetails,
   updateArtistPaymentStatusForOrderData,
 } from "../api/payment";
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import MoneyOffIcon from '@mui/icons-material/MoneyOff';
 import { useEffect } from "react";
 import { useAuthContext } from "../context/AuthContextProvider";
 import EyeOpen from "../assets/svgs/EyeOpen";
 import PaymentCalculationDialog from "./PaymentModelView";
+import { Check } from "@mui/icons-material";
 
 const PaymentRequests = () => {
   const [paymentsData, setPaymentsData] = useState([]);
@@ -122,61 +120,59 @@ const PaymentRequests = () => {
       field: "pay",
       headerName: "Pay",
       headerClassName: "super-app-theme--header",
-      width: 40,
+      width: 50,
       sortable: false,
       renderCell: (params) => {
         return (
-          params?.row?.isPaymentRequested &&
-          params?.row?.payableAmount &&
-          (loading[params.row.id] ? (
+          (params?.row?.isPaymentRequested &&
+            params?.row?.payableAmount &&
+            (loading[params.row.id] ? (
+              <Typography
+                width={100}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
+                align="center"
+              >
+                <CircularProgress size={20} />
+              </Typography>
+            ) : (
+              <Button
+                onClick={async () => {
+                  payTheArtist(params.row);
+                }}
+                variant="contained"
+                sx={{
+                  width: "2rem",
+                  height: "2rem",
+                  padding: "0",
+                  minWidth: "unset",
+                  borderRadius: "50%",
+                  border: "1px solid black",
+                  fontSize: "0.7rem",
+                }}
+              >
+                Pay
+                {/* <AttachMoneyIcon /> */}
+              </Button>
+            ))) || (
             <Typography
               width={100}
               sx={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                color: "#daa520",
                 cursor: "pointer",
+                ":hover": {},
               }}
-              align="center"
             >
-              <CircularProgress size={20} />
+              <Check />
             </Typography>
-          ) : (
-            <Typography
-              onClick={async () => {
-                payTheArtist(params.row);
-              }}
-              width={100}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                color: "green",
-                cursor: "pointer",
-                ":hover": {
-                },
-              }}
-              align="center"
-            >
-              <AttachMoneyIcon />
-            </Typography>
-          )) || (
-            <Typography
-              width={100}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                color: "red",
-                cursor: "pointer",
-                ":hover": {
-                },
-              }}
-            >
-              <MoneyOffIcon />
-            </Typography >
           )
-
         );
       },
     },
@@ -311,17 +307,19 @@ const PaymentRequests = () => {
 
   const getPayments = async () => {
     setLoadingData(true);
-    let tempPaymentData = {}
+    let tempPaymentData = {};
     getAllStripePaymentDetails(authToken).then((res) => {
-      const temp = res.data.map(i => {
+      const temp = res.data.map((i) => {
         const productId = i?.comments.split(" ");
         return {
           paymentReceiverId: i?.paymentReceiverId,
           date: i?.createdDate,
-          productId: !isNaN(Number(productId[productId.length - 1])) ? Number(productId[productId.length - 1]) : null,
-        }
-      })
-      tempPaymentData = temp
+          productId: !isNaN(Number(productId[productId.length - 1]))
+            ? Number(productId[productId.length - 1])
+            : null,
+        };
+      });
+      tempPaymentData = temp;
     });
 
     getAllPaymentRequests(authToken).then((res) => {
@@ -333,8 +331,11 @@ const PaymentRequests = () => {
         delete b.id;
         let a = handleViewClick(item);
         delete a?.id;
-        const date = tempPaymentData?.filter(i => i.productId === item.id)[0]?.date;
-        const requestedDate = item?.paymentRequestedDate ? new Date(item?.paymentRequestedDate).toLocaleString() : ""
+        const date = tempPaymentData?.filter((i) => i.productId === item.id)[0]
+          ?.date;
+        const requestedDate = item?.paymentRequestedDate
+          ? new Date(item?.paymentRequestedDate).toLocaleString()
+          : "";
         return {
           ...item,
           paymentRequestedDate: requestedDate,
@@ -405,8 +406,9 @@ const PaymentRequests = () => {
                 ...item,
                 key: index,
                 amount: `$ ${item.amount}`,
-                created: `${new Date(item.created * 1000).getDate()} -${new Date(item.created * 1000).getMonth() + 1
-                  } -${new Date(item.created * 1000).getFullYear()} `,
+                created: `${new Date(item.created * 1000).getDate()} -${
+                  new Date(item.created * 1000).getMonth() + 1
+                } -${new Date(item.created * 1000).getFullYear()} `,
               }))}
               disableSelectionOnClick
               isRowSelectable={false}
