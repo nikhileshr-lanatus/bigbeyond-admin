@@ -331,8 +331,9 @@ const PaymentRequests = () => {
         delete b.id;
         let a = handleViewClick(item);
         delete a?.id;
-        const date = tempPaymentData?.filter((i) => i.productId === item.id)[0]
-          ?.date;
+        const date = tempPaymentData
+          ?.filter((i) => i.productId === item.id)
+          .sort((b, a) => new Date(a.date) - new Date(b.date))[0]?.date;
         const requestedDate = item?.paymentRequestedDate
           ? new Date(item?.paymentRequestedDate).toLocaleString()
           : "";
