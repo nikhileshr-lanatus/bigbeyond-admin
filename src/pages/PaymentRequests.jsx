@@ -12,12 +12,12 @@ import { useEffect } from "react";
 import { useAuthContext } from "../context/AuthContextProvider";
 import EyeOpen from "../assets/svgs/EyeOpen";
 import PaymentCalculationDialog from "./PaymentModelView";
-import { Check } from "@mui/icons-material";
+import { Check, Refresh } from "@mui/icons-material";
 
 const PaymentRequests = () => {
   const [paymentsData, setPaymentsData] = useState([]);
   const [paymentModalData, setPaymentModalData] = useState();
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(false);
   const { showSnackBarNotification, authToken } = useAuthContext();
   const [open, setOpen] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
@@ -384,8 +384,34 @@ const PaymentRequests = () => {
         onClickCancel={() => setOpen(false)}
       />
       <>
-        <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-          <h1 style={{ width: "90%" }}> Payment Requests</h1>
+        <Box display="flex" justifyContent="center">
+          <Box
+            sx={{
+              width: "90%",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginLeft: "0.3rem",
+            }}
+          >
+            <h1> Payment Requests</h1>
+            <Button
+              sx={{
+                color: "black",
+                textTransform: "capitalize",
+                fontWeight: "bold",
+                ":hover": {
+                  backgroundColor: "#fff",
+                  color: "#daa520",
+                  fontWeight: "bold",
+                },
+              }}
+              startIcon={<Refresh style={{ cursor: "pointer" }} />}
+              onClick={() => getPayments()}
+            >
+              Refresh
+            </Button>
+          </Box>
         </Box>
       </>
 
