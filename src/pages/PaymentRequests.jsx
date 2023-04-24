@@ -82,7 +82,7 @@ const PaymentRequests = () => {
     },
     {
       field: "paymentRequestedDate",
-      headerName: "Requested On",
+      headerName: "Last Requested On",
       headerClassName: "super-app-theme--header",
       width: 170,
     },
@@ -178,7 +178,7 @@ const PaymentRequests = () => {
     },
     {
       field: "date",
-      headerName: "Paid On",
+      headerName: "Last Paid On",
       headerClassName: "super-app-theme--header",
       width: 170,
     },
@@ -249,6 +249,7 @@ const PaymentRequests = () => {
                 ...item,
                 isPaymentRequested: false,
                 payableAmount: "$ 0",
+                date: new Date().toLocaleString(),
               };
             }
             return item;
@@ -308,51 +309,49 @@ const PaymentRequests = () => {
   const getPayments = async () => {
     setLoadingData(true);
     let tempPaymentData = {};
-    getAllStripePaymentDetails(authToken).then((res) => {
-      const temp = res.data.map((i) => {
-        const productId = i?.comments.split(" ");
-        return {
-          paymentReceiverId: i?.paymentReceiverId,
-          date: i?.createdDate,
-          productId: !isNaN(Number(productId[productId.length - 1]))
-            ? Number(productId[productId.length - 1])
-            : null,
-        };
-      });
-      tempPaymentData = temp;
+    let res = await getAllStripePaymentDetails(authToken);
+    const temp1 = res.data.map((i) => {
+      const productId = i?.comments.split(" ");
+      return {
+        paymentReceiverId: i?.paymentReceiverId,
+        date: i?.createdDate,
+        productId: !isNaN(Number(productId[productId.length - 1]))
+          ? Number(productId[productId.length - 1])
+          : null,
+      };
     });
+    tempPaymentData = temp1;
 
-    getAllPaymentRequests(authToken).then((res) => {
-      const loadingTemp = {};
-      const temp = res?.data.map((item) => {
-        const b = item?.users;
-        loadingTemp[item.id] = false;
-        const artistId = b?.id;
-        delete b.id;
-        let a = handleViewClick(item);
-        delete a?.id;
-        const date = tempPaymentData
-          ?.filter((i) => i.productId === item.id)
-          .sort((b, a) => new Date(a.date) - new Date(b.date))[0]?.date;
-        const requestedDate = item?.paymentRequestedDate
-          ? new Date(item?.paymentRequestedDate).toLocaleString()
-          : "";
-        return {
-          ...item,
-          paymentRequestedDate: requestedDate,
-          artistId: artistId,
-          paymentType: item?.paymentType?.name,
-          ...a,
-          ...b,
-          amount: item?.price,
-          fullName: b.fullName ? b.fullName : "unknown",
-          date: date ? new Date(date).toLocaleString() : "",
-        };
-      });
-      setPaymentsData(temp);
-      setLoading(loadingTemp);
-      setLoadingData(false);
+    res = await getAllPaymentRequests(authToken);
+    const loadingTemp = {};
+    const temp = res?.data.map((item) => {
+      const b = item?.users;
+      loadingTemp[item.id] = false;
+      const artistId = b?.id;
+      delete b.id;
+      let a = handleViewClick(item);
+      delete a?.id;
+      const date = tempPaymentData
+        ?.filter((i) => i.productId === item.id)
+        .sort((b, a) => new Date(a.date) - new Date(b.date))[0]?.date;
+      const requestedDate = item?.paymentRequestedDate
+        ? new Date(item?.paymentRequestedDate).toLocaleString()
+        : "";
+      return {
+        ...item,
+        paymentRequestedDate: requestedDate,
+        artistId: artistId,
+        paymentType: item?.paymentType?.name,
+        ...a,
+        ...b,
+        amount: item?.price,
+        fullName: b.fullName ? b.fullName : "unknown",
+        date: date ? new Date(date).toLocaleString() : "",
+      };
     });
+    setPaymentsData(temp);
+    setLoading(loadingTemp);
+    setLoadingData(false);
   };
 
   useEffect(() => {
