@@ -225,6 +225,7 @@ const PaymentRequests = () => {
 
   const payTheArtist = async (data) => {
     setPaymentModalData(data);
+    console.log({ data })
     if (data.paymentType === "USD") {
       const apiData = {
         amount: data?.payableAmount?.split(" ")[1],
@@ -232,9 +233,12 @@ const PaymentRequests = () => {
         productId: data.id,
         productName: data.name,
         metadata: {
+          userName: data.userName,
           productId: data.id,
           email: data.email,
           productName: data.name,
+          price: data.price,
+          quantity: data.dueQty,
           amount: data?.payableAmount?.split(" ")[1],
         },
         currency: "usd",
@@ -324,7 +328,7 @@ const PaymentRequests = () => {
 
     res = await getAllPaymentRequests(authToken);
     const loadingTemp = {};
-    const temp = res?.data.map((item) => {
+    let temp = res?.data.map((item) => {
       const b = item?.users;
       loadingTemp[item.id] = false;
       const artistId = b?.id;
@@ -349,6 +353,7 @@ const PaymentRequests = () => {
         date: date ? new Date(date).toLocaleString() : "",
       };
     });
+    temp = temp.filter(({ paymentRequestedDate }) => paymentRequestedDate)
     setPaymentsData(temp);
     setLoading(loadingTemp);
     setLoadingData(false);
@@ -432,9 +437,8 @@ const PaymentRequests = () => {
                 ...item,
                 key: index,
                 amount: `$ ${item.amount}`,
-                created: `${new Date(item.created * 1000).getDate()} -${
-                  new Date(item.created * 1000).getMonth() + 1
-                } -${new Date(item.created * 1000).getFullYear()} `,
+                created: `${new Date(item.created * 1000).getDate()} -${new Date(item.created * 1000).getMonth() + 1
+                  } -${new Date(item.created * 1000).getFullYear()} `,
               }))}
               disableSelectionOnClick
               isRowSelectable={false}
