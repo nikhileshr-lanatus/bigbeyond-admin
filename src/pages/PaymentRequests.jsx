@@ -13,6 +13,7 @@ import { useAuthContext } from "../context/AuthContextProvider";
 import EyeOpen from "../assets/svgs/EyeOpen";
 import PaymentCalculationDialog from "./PaymentModelView";
 import { Check, Refresh } from "@mui/icons-material";
+import { stripeCurrencySymbol, stripeCurrencyType } from '../constant';
 
 const PaymentRequests = () => {
   const [paymentsData, setPaymentsData] = useState([]);
@@ -217,7 +218,7 @@ const PaymentRequests = () => {
         dueAmount: amountToPay,
         paymentType: product?.paymentType?.name,
         artistCommission: `${artistCommission}%`,
-        payableAmount: `$ ${payableAmount}`,
+        payableAmount: `${stripeCurrencySymbol} ${payableAmount}`,
       };
       return tempPaymentModataData;
     }
@@ -226,7 +227,7 @@ const PaymentRequests = () => {
   const payTheArtist = async (data) => {
     setPaymentModalData(data);
     console.log({ data })
-    if (data.paymentType === "USD") {
+    if (data.paymentType.toLowerCase() === stripeCurrencyType) {
       const apiData = {
         amount: data?.payableAmount?.split(" ")[1],
         artistId: data.artistId,
@@ -241,7 +242,7 @@ const PaymentRequests = () => {
           quantity: data.dueQty,
           amount: data?.payableAmount?.split(" ")[1],
         },
-        currency: "usd",
+        currency: stripeCurrencyType,
       };
       setLoading({ ...loading, [data.id]: true });
       try {
@@ -252,7 +253,7 @@ const PaymentRequests = () => {
               return {
                 ...item,
                 isPaymentRequested: false,
-                payableAmount: "$ 0",
+                payableAmount: `${stripeCurrencySymbol} 0`,
                 date: new Date().toLocaleString(),
               };
             }
@@ -436,7 +437,7 @@ const PaymentRequests = () => {
               rows={paymentsData?.map((item, index) => ({
                 ...item,
                 key: index,
-                amount: `$ ${item.amount}`,
+                amount: `${stripeCurrencySymbol} ${item.amount}`,
                 created: `${new Date(item.created * 1000).getDate()} -${new Date(item.created * 1000).getMonth() + 1
                   } -${new Date(item.created * 1000).getFullYear()} `,
               }))}

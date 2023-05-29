@@ -29,7 +29,7 @@ const SignIn = () => {
     event.preventDefault();
     try {
       const res = await userLogin(user);
-      if (res?.statusText === "OK") {
+      if (res?.data?.isSessionStarted) {
         // console.log("sign In successfully with status 200 ok");
         setAuthToken(res.data.token);
         setCurrentUser(res.data.userData);

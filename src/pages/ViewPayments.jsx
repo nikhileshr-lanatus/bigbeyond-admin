@@ -16,6 +16,7 @@ import { useAuthContext } from "../context/AuthContextProvider";
 import { getAllArtistUsers } from "../api/users";
 import { captureError } from "../api/captureError";
 import { getAllPaymentData } from "../api/payment";
+import { stripeCurrencyType } from "../constant";
 
 const ViewPayments = () => {
   const [paymentsData, setpaymentsData] = useState([]);
@@ -248,7 +249,7 @@ const ViewPayments = () => {
                   fee: `${item.fee / 100}`,
                   amount: `${item.amount / 100}`,
                   status: item.status === "available" ? "Debit" : "Credit",
-                  currency: item.currency === "usd" ? "USD" : "",
+                  currency: item.currency === stripeCurrencyType ? stripeCurrencyType.toLocaleUpperCase() : "",
                   created: `${new Date(item.created * 1000).getDate()}-${new Date(item.created * 1000).getMonth() + 1
                     }-${new Date(item.created * 1000).getFullYear()}`,
                 }))}
