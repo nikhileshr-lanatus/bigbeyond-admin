@@ -10,6 +10,16 @@ export const getAllPaymentData = async (data, token) => {
     return err.response;
   }
 };
+export const getAllOrdersData = async (data, token) => {
+  try {
+    const res = await axios.get("get-all-product-orders", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res;
+  } catch (err) {
+    return err.response;
+  }
+};
 
 export const getAllPaymentRequests = async (token) => {
   try {

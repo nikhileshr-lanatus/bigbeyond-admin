@@ -15,6 +15,7 @@ import ApproveArtists from "../pages/ApproveArtists";
 import ViewPayments from "../pages/ViewPayments";
 import ReportedProducts from "../pages/ReportedProducts";
 import PaymentRequests from "../pages/PaymentRequests";
+import Orders from "../pages/Orders";
 
 const Content = () => {
   const { currentUser } = useAuthContext();
@@ -51,6 +52,7 @@ const Content = () => {
               element={<ApproveArtists />}
             />
             <Route path="/admin/see-all-payments" element={<ViewPayments />} />
+            <Route path="/admin/all-orders" element={<Orders />} />
             <Route path="/admin/requested-payments" element={<PaymentRequests />} />
             <Route
               path="/admin/check-delivery-status"

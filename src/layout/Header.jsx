@@ -49,6 +49,11 @@ const Header = () => {
             icon: <RequestQuoteIcon />,
           },
           {
+            title: "Product Orders",
+            path: "/admin/all-orders",
+            icon: <RequestQuoteIcon />,
+          },
+          {
             title: "Payment Requests",
             path: "/admin/requested-payments",
             icon: <RequestQuoteIcon />,
